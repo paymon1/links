@@ -3,852 +3,717 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فهرست لینک‌های معرفی برگزیده</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="description" content="فهرست جامع منابع کریپتو، ایردراپ‌ها و ابزارهای Web3">
+    <title>جعبه ابزار کریپتو | Crypto Toolkit</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.fontcdn.ir/css/Vazir" rel="stylesheet" type="text/css">
     
     <style>
-        /* General Reset and Base Styles */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        :root {
+            --primary-color: #3b82f6;
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-sub: #6b7280;
+            --border-color: #e5e7eb;
+            --hover-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            --gradient-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
+
+        [data-theme="dark"] {
+            --primary-color: #60a5fa;
+            --bg-color: #111827;
+            --card-bg: #1f2937;
+            --text-main: #f9fafb;
+            --text-sub: #9ca3af;
+            --border-color: #374151;
+            --hover-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            --gradient-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.3s, color 0.3s; }
 
         body {
             font-family: 'Vazir', Tahoma, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
-            line-height: 1.6;
-            display: flex;
-            justify-content: center;
-            padding: 20px 0;
+            background: var(--gradient-bg);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px 10px;
         }
 
         .container {
             width: 100%;
-            max-width: 600px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        /* Profile Header Styles */
+        /* --- Header & Controls --- */
         .profile-header {
             text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
+            background-color: var(--card-bg);
+            padding: 40px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .share-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            cursor: pointer;
         }
 
         .profile-icon {
-            font-size: 3em;
-            color: #007bff;
-            margin-bottom: 10px;
-        }
-
-        .profile-header h1 {
-            font-size: 1.8em;
-            color: #1a1a1a;
-            margin-bottom: 5px;
-        }
-
-        .profile-header p {
-            font-size: 0.9em;
-            color: #777;
-            margin-top: 10px;
-        }
-
-        /* Link List and Card Styles */
-        .link-list {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            color: white;
+            border-radius: 50%;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 15px;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .profile-header h1 { font-size: 1.5rem; margin-bottom: 10px; }
+        .profile-header p { font-size: 0.9rem; color: var(--text-sub); max-width: 500px; margin: 0 auto; }
+
+        /* --- Search & Filters --- */
+        .controls-area {
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            font-family: inherit;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            scrollbar-width: none;
+        }
+        .filter-tags::-webkit-scrollbar { display: none; }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-sub);
+            font-family: inherit;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* --- Links Layout --- */
+        .link-list {
+            display: grid;
+            grid-template-columns: 1fr;
             gap: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .link-list { grid-template-columns: repeat(2, 1fr); }
+            .category-header { grid-column: 1 / -1; }
+        }
+
+        .category-header {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 20px 0 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .link-card {
             display: flex;
             align-items: center;
             text-decoration: none;
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
             padding: 15px;
-            transition: all 0.2s ease-in-out;
-            color: #333;
+            position: relative;
+            overflow: hidden;
         }
 
         .link-card:hover {
-            background-color: #e2e6ea;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--primary-color);
         }
 
         .link-icon {
-            font-size: 1.5em;
+            width: 45px;
+            height: 45px;
+            background-color: rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
             margin-left: 15px;
-            color: #007bff; /* Default icon color */
+            flex-shrink: 0;
         }
 
-        .link-details {
-            flex-grow: 1;
-            text-align: right;
-        }
+        /* Specific Colors per category logic */
+        .exchange-link .link-icon { color: #3b82f6; background: rgba(59, 130, 246, 0.1); }
+        .web3-link .link-icon { color: #10b981; background: rgba(16, 185, 129, 0.1); }
+        .micro-link .link-icon { color: #f59e0b; background: rgba(245, 158, 11, 0.1); }
+        .depin-link .link-icon { color: #ef4444; background: rgba(239, 68, 68, 0.1); }
+        .gaming-link .link-icon { color: #8b5cf6; background: rgba(139, 92, 246, 0.1); }
+        .telegram-link .link-icon { color: #229ED9; background: rgba(34, 158, 217, 0.1); }
 
+        .link-details { flex-grow: 1; min-width: 0; }
+        
         .link-title {
             display: block;
-            font-size: 1.1em;
-            font-weight: 600;
-            color: #1a1a1a;
+            font-weight: 700;
+            color: var(--text-main);
+            font-size: 1rem;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .link-description {
             display: block;
-            font-size: 0.85em;
-            color: #6c757d;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .link-action {
-            font-size: 1.1em;
-            color: #007bff;
-        }
+        .link-arrow { color: var(--border-color); font-size: 0.8rem; }
+        .link-card:hover .link-arrow { color: var(--primary-color); }
 
-        /* Footer Styles */
+        /* Footer */
         footer {
             text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            font-size: 0.8em;
-            color: #999;
+            margin-top: 40px;
+            color: var(--text-sub);
+            font-size: 0.8rem;
+            padding-bottom: 20px;
+        }
+        
+        .hidden { display: none !important; }
+
+        /* Notification Toast */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 17px;
         }
 
-        /* Specific Category Styles for separation and color coding */
-        .category-header {
-            font-size: 1.4em;
-            font-weight: 700;
-            color: #1e2a38;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 2px solid;
-            text-align: right;
-            border-radius: 2px;
+        #toast.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
         }
 
-        /* Color Coding for Categories */
-        .exchange-color { border-color: #007bff; color: #007bff; }
-        .web3-color { border-color: #28a745; color: #28a745; }
-        .micro-color { border-color: #ffc107; color: #ffc107; }
-        .depin-color { border-color: #dc3545; color: #dc3545; }
-        .gaming-color { border-color: #6f42c1; color: #6f42c1; }
-
-        /* Icon Colors (optional but adds polish) */
-        .link-card.exchange-link .link-icon i { color: #007bff; }
-        .link-card.web3-link .link-icon i { color: #28a745; }
-        .link-card.micro-link .link-icon i { color: #ffc107; }
-        .link-card.depin-link .link-icon i { color: #dc3545; }
-        .link-card.gaming-link .link-icon i { color: #6f42c1; }
-        .link-card.content-link .link-icon i { color: #fd7e14; }
-        .link-card.finance-link .link-icon i { color: #17a2b8; }
-        .link-card.social-link .link-icon i { color: #34495e; }
-        .link-card.tech-link .link-icon i { color: #3498db; }
-        .link-card.telegram-link .link-icon i { color: #0088cc; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
     </style>
 </head>
 <body>
+
     <div class="container">
         <header class="profile-header">
+            <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+            <button class="share-btn" onclick="sharePage()"><i class="fas fa-share-alt"></i></button>
+            
             <div class="profile-icon"><i class="fas fa-rocket"></i></div>
-            <h1>فهرست جامع منابع کریپتو، ابزارها و ایردراپ‌ها</h1>
-            <p>این صفحه شامل تمامی لینک‌های من است که به ۵ دسته‌ی اصلی تقسیم شده‌اند. لطفاً قبل از فعالیت و یا هرگونه سرمایه‌گذاری خودتان بررسی کامل انجام دهید. با کلیک بر روی هر لینک، از فعالیت من حمایت می‌کنید❤️</p>
+            <h1>جعبه ابزار کریپتو</h1>
+            <p>مجموعه ابزارها، صرافی‌ها و ایردراپ‌های معتبر. قبل از سرمایه‌گذاری تحقیق کنید (DYOR).</p>
         </header>
 
-        <main class="link-list">
+        <div class="controls-area">
+            <input type="text" id="searchInput" class="search-box" placeholder="جستجو (مثلاً: Binance, تلگرام)..." onkeyup="filterLinks()">
+            
+            <div class="filter-tags">
+                <button class="filter-btn active" onclick="filterCategory('all', this)">همه</button>
+                <button class="filter-btn" onclick="filterCategory('exchange-link', this)">صرافی</button>
+                <button class="filter-btn" onclick="filterCategory('web3-link', this)">Web3</button>
+                <button class="filter-btn" onclick="filterCategory('micro-link', this)">فاست</button>
+                <button class="filter-btn" onclick="filterCategory('depin-link', this)">DePIN</button>
+                <button class="filter-btn" onclick="filterCategory('gaming-link', this)">بازی</button>
+                <button class="filter-btn" onclick="filterCategory('telegram-link', this)">تلگرام</button>
+            </div>
+        </div>
 
-            <h3 class="category-header exchange-color">۱. صرافی‌ها و خدمات مالی</h3>
+        <main class="link-list" id="linksContainer">
 
+            <h3 class="category-header category-title" data-cat="exchange-link"><i class="fas fa-wallet"></i> صرافی‌ها و مالی</h3>
+            
             <a href="https://www.binance.com/en/register?ref=40743169" target="_blank" class="link-card exchange-link">
-                <div class="link-icon"><i class="fas fa-exchange-alt"></i></div>
+                <div class="link-icon"><i class="fas fa-globe"></i></div>
                 <div class="link-details">
-                    <span class="link-title">Binance (بایننس)</span>
-                    <span class="link-description">بزرگترین صرافی جهان - ثبت نام و تخفیف کارمزد.</span>
+                    <span class="link-title">Binance</span>
+                    <span class="link-description">بزرگترین صرافی جهان</span>
                 </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
             </a>
             
             <a href="https://bingx.com/invite/9NNUWM" target="_blank" class="link-card exchange-link">
-                <div class="link-icon"><i class="fas fa-exchange-alt"></i></div>
+                <div class="link-icon"><i class="fas fa-chart-line"></i></div>
                 <div class="link-details">
-                    <span class="link-title">BingX (بینگ ایکس)</span>
-                    <span class="link-description">صرافی مشتقات و معاملات فیوچرز.</span>
+                    <span class="link-title">BingX</span>
+                    <span class="link-description">ترید فیوچرز و کپی‌ترید</span>
                 </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
             </a>
             
-            <a href="https://nobitex.ir/signup/?refcode=2817185" target="_blank" class="link-card exchange-link">
-                <div class="link-icon"><i class="fas fa-exchange-alt"></i></div>
+             <a href="https://nobitex.ir/signup/?refcode=2817185" target="_blank" class="link-card exchange-link">
+                <div class="link-icon"><i class="fas fa-coins"></i></div>
                 <div class="link-details">
-                    <span class="link-title">📌Nobitex (نوبیتکس)</span>
-                    <span class="link-description">صرافی معتبر رمزارز داخلی.</span>
+                    <span class="link-title">Nobitex (نوبیتکس)</span>
+                    <span class="link-description">صرافی معتبر ایرانی</span>
                 </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
             </a>
-            
+
             <a href="https://wallex.ir/signup?ref=zc3hbde" target="_blank" class="link-card exchange-link">
-                <div class="link-icon"><i class="fas fa-exchange-alt"></i></div>
+                <div class="link-icon"><i class="fas fa-landmark"></i></div>
                 <div class="link-details">
                     <span class="link-title">Wallex (والکس)</span>
-                    <span class="link-description">صرافی والکس - ترید و خرید و فروش.</span>
+                    <span class="link-description">خرید و فروش امن رمزارز</span>
                 </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
             </a>
-            
-            <a href="https://bitpin.ir/signup/?refcode=z4ylqbfjht" target="_blank" class="link-card exchange-link">
-                <div class="link-icon"><i class="fas fa-exchange-alt"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Bitpin (بیت‌پین)</span>
-                    <span class="link-description">صرافی بیت‌پین - خدمات رمزارزی.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
+
             <a href="https://tabdeal.org/?ref=2imfj5" target="_blank" class="link-card exchange-link">
                 <div class="link-icon"><i class="fas fa-exchange-alt"></i></div>
                 <div class="link-details">
                     <span class="link-title">Tabdeal (تبدیل)</span>
-                    <span class="link-description">صرافی تبدیل - بازار تتر و آلت‌کوین‌ها.</span>
+                    <span class="link-description">بازار معاملاتی متنوع</span>
                 </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
             </a>
             
-            <a href="https://app.firouzeh.com/?referral_code=D9OKC" target="_blank" class="link-card finance-link">
+            <a href="https://app.firouzeh.com/?referral_code=D9OKC" target="_blank" class="link-card exchange-link">
                 <div class="link-icon"><i class="fas fa-piggy-bank"></i></div>
                 <div class="link-details">
-                    <span class="link-title">Firouzeh (سرمایه‌گذاری فیروزه)</span>
-                    <span class="link-description">اپلیکیشن صندوق‌های سرمایه‌گذاری.</span>
+                    <span class="link-title">Firouzeh (فیروزه)</span>
+                    <span class="link-description">سرمایه‌گذاری در صندوق‌ها</span>
                 </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
             </a>
-            
-            <a href="https://axon.charisma.ir/l?mRef=10h6a3" target="_blank" class="link-card finance-link">
+
+            <a href="https://axon.charisma.ir/l?mRef=10h6a3" target="_blank" class="link-card exchange-link">
                 <div class="link-icon"><i class="fas fa-chart-bar"></i></div>
                 <div class="link-details">
-                    <span class="link-title">📌Charisma / Axon (بورس و سرمایه)</span>
-                    <span class="link-description">سرمایه‌گذاری در بورس و سهام.</span>
+                    <span class="link-title">Charisma (کاریزما)</span>
+                    <span class="link-description">ابزارهای سرمایه‌گذاری بورس</span>
                 </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
             </a>
-            
-            <a href="https://dongi.ir/user/nlogin/?ref=Xu1HY" target="_blank" class="link-card finance-link">
-                <div class="link-icon"><i class="fas fa-home"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Dongi (دنگی - جمع سپاری)</span>
-                    <span class="link-description">پروژه‌های تأمین مالی جمعی.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://rubic.exchange/birthday5?referrer=3X8S8IFP324U" target="_blank" class="link-card web3-link">
-                <div class="link-icon"><i class="fas fa-cube"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Rubic Exchange (کراس‌چین سواپ)</span>
-                    <span class="link-description">پلتفرم مبادلات بین شبکه‌ای (Cross-Chain Swap).</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="avantisfi.com/referral?code=Dropfarm" target="_blank" class="link-card web3-link">
-                <div class="link-icon"><i class="fas fa-balance-scale"></i></div>
-                <div class="link-details">
-                    <span class="link-title">AvantisFi (لوریج دکس)</span>
-                    <span class="link-description">صرافی غیرمتمرکز اهرمی (Leverage DEX).</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://faucetpay.io/?r=95880" target="_blank" class="link-card micro-link">
-                <div class="link-icon"><i class="fas fa-wallet"></i></div>
-                <div class="link-details">
-                    <span class="link-title">📌FaucetPay (میکرو کیف پول)</span>
-                    <span class="link-description">کیف پول برای تراکنش‌های خرد و فاست‌ها.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://payeer.com/?session=11397475" target="_blank" class="link-card finance-link">
-                <div class="link-icon"><i class="fas fa-money-check-alt"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Payeer (کیف پول الکترونیک)</span>
-                    <span class="link-description">کیف پول الکترونیکی بین‌المللی.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            
 
-            
-            ---
-            <h3 class="category-header web3-color">۲. پروژه‌های Web3 و ابزارهای بلاکچین</h3>
+            <h3 class="category-header category-title" data-cat="web3-link"><i class="fas fa-cube"></i> Web3 و ابزارها</h3>
 
             <a href="https://auth.arkm.com/register?ref=8b98dceb-303b-4966-9261-24df8e29d874" target="_blank" class="link-card web3-link">
                 <div class="link-icon"><i class="fas fa-brain"></i></div>
                 <div class="link-details">
                     <span class="link-title">Arkham Intelligence</span>
-                    <span class="link-description">تحلیل داده‌های آن‌چین با هوش مصنوعی.</span>
+                    <span class="link-description">تحلیل داده‌های بلاکچین با هوش مصنوعی</span>
                 </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
             </a>
             
+             <a href="https://proving-grounds.brevis.network/VQcpfa" target="_blank" class="link-card web3-link">
+                <div class="link-icon"><i class="fas fa-shield-alt"></i></div>
+                <div class="link-details">
+                    <span class="link-title">Brevis Network</span>
+                    <span class="link-description">Proving Grounds (ZK Coprocessor)</span>
+                </div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
+            </a>
+
+            <a href="https://eth.blockscout.com?ref=6RZXK3" target="_blank" class="link-card web3-link">
+                <div class="link-icon"><i class="fas fa-binoculars"></i></div>
+                <div class="link-details">
+                    <span class="link-title">Blockscout</span>
+                    <span class="link-description">مرورگر بلاکچین‌های EVM</span>
+                </div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
+            </a>
+            
+            <a href="https://blockstreet.money/dashboard?invite_code=mvEz8G" target="_blank" class="link-card web3-link">
+                <div class="link-icon"><i class="fas fa-city"></i></div>
+                <div class="link-details">
+                    <span class="link-title">BlockStreet</span>
+                    <span class="link-description">داشبورد مالی و کسب درآمد</span>
+                </div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
+            </a>
+            
+            <a href="https://mission.superintent.ai/?referralCode=eIJAOWtvmB" target="_blank" class="link-card web3-link">
+                <div class="link-icon"><i class="fas fa-tasks"></i></div>
+                <div class="link-details">
+                    <span class="link-title">SuperIntent AI</span>
+                    <span class="link-description">انجام ماموریت‌های هوش مصنوعی</span>
+                </div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
+            </a>
+
+             <a href="https://sosovalue.com/join/0DCN0PVQ" target="_blank" class="link-card web3-link">
+                <div class="link-icon"><i class="fas fa-search-dollar"></i></div>
+                <div class="link-details">
+                    <span class="link-title">SoSoValue</span>
+                    <span class="link-description">ابزار کشف جم‌ها و آلفا</span>
+                </div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
+            </a>
+
             <a href="https://app.nansen.ai/ref?MgzAfN6OSnQ" target="_blank" class="link-card web3-link">
                 <div class="link-icon"><i class="fas fa-chart-pie"></i></div>
                 <div class="link-details">
-                    <span class="link-title">Nansen AI (تحلیل آن‌چین)</span>
-                    <span class="link-description">پلتفرم قدرتمند تحلیل بلاکچین.</span>
+                    <span class="link-title">Nansen AI</span>
+                    <span class="link-description">تحلیل حرفه‌ای آن‌چین</span>
                 </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://skynet.certik.com/quest/signup?referralId=4324d09a-bf19-436c-8635-645a52dbf136" target="_blank" class="link-card web3-link">
-                <div class="link-icon"><i class="fas fa-shield-alt"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Certik Skynet Quest</span>
-                    <span class="link-description">پلتفرم کوئست‌ها و امنیت بلاکچین.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://sosovalue.com/join/0DCN0PVQ" target="_blank" class="link-card web3-link">
-                <div class="link-icon"><i class="fas fa-search-dollar"></i></div>
-                <div class="link-details">
-                    <span class="link-title">📌SoSoValue (کشف آلفا)</span>
-                    <span class="link-description">ابزار کشف فرصت‌ها و ارزش‌گذاری پروژه‌ها.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://signup.billions.network/?rc=IMENAAXD" target="_blank" class="link-card web3-link">
-                <div class="link-icon"><i class="fas fa-globe"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Billions Network</span>
-                    <span class="link-description">ثبت نام برای دریافت پاداش‌ها.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://eth.blockscout.com?ref=6RZXK3" target="_blank" class="link-card tech-link">
-                <div class="link-icon"><i class="fas fa-binoculars"></i></div>
-                <div class="link-details">
-                    <span class="link-title">📌Blockscout (مرورگر بلاک)</span>
-                    <span class="link-description">کاوشگر بلاکچین‌های مختلف.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://testnet.gokite.ai?referralCode=CZ7KR67C" target="_blank" class="link-card tech-link">
-                <div class="link-icon"><i class="fas fa-cogs"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Gokite AI (تست‌نت)</span>
-                    <span class="link-description">شرکت در تست‌نت و فعالیت‌های اولیه.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://points.zkverify.io/loyalty" target="_blank" class="link-card web3-link">
-                <div class="link-icon"><i class="fas fa-lock"></i></div>
-                <div class="link-details">
-                    <span class="link-title">ZKVerify (امتیاز وفاداری)</span>
-                    <span class="link-description">جمع‌آوری امتیازات وفاداری.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://portal.peaq.xyz/?ref=c3u4jX08W" target="_blank" class="link-card depin-link">
-                <div class="link-icon"><i class="fas fa-share-alt"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Peaq Network (پورتال DePIN)</span>
-                    <span class="link-description">ثبت نام در پورتال شبکه‌ پیاق.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://app.ducatprotocol.com/quanta?referral=aVv_iBdp3kpa" target="_blank" class="link-card web3-link">
-                <div class="link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Ducat Protocol (امتیاز کوانتا)</span>
-                    <span class="link-description">جمع‌آوری امتیاز کوانتا برای ایردراپ احتمالی.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://klokapp.ai?referral_code=UGZEQXA2" target="_blank" class="link-card tech-link">
-                <div class="link-icon"><i class="fas fa-clock"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Klokapp AI</span>
-                    <span class="link-description">ابزارهای مبتنی بر هوش مصنوعی.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://quests.theoriq.ai?r=pzV2Vhgq" target="_blank" class="link-card web3-link">
-                <div class="link-icon"><i class="fas fa-scroll"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Theoriq Quests</span>
-                    <span class="link-description">شرکت در کوئست‌ها و وظایف.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://app.noya.ai/space-race-onboarding/HwGNQS" target="_blank" class="link-card tech-link">
-                <div class="link-icon"><i class="fas fa-space-shuttle"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Noya AI (مسابقه فضایی)</span>
-                    <span class="link-description">ثبت نام برای شرکت در کمپین.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            
-            <a href="https://parallel.life/colony/?referrer=434e4f0c-f526-46ce-bc99-3685ac965ef2" target="_blank" class="link-card gaming-link">
-                <div class="link-icon"><i class="fas fa-chess-knight"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Parallel Life Colony</span>
-                    <span class="link-description">بازی و کسب امتیاز در کلونی.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            
-            <a href="https://testnet.pharosnetwork.xyz/experience?inviteCode=RfgFyrjEUeC728lB" target="_blank" class="link-card web3-link">
-                <div class="link-icon"><i class="fas fa-satellite-dish"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Pharos Testnet</span>
-                    <span class="link-description">شبکه آزمایشی فاروس - کسب امتیاز.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://rewards.blazpay.com/daily-tasks" target="_blank" class="link-card web3-link">
-                <div class="link-icon"><i class="fas fa-fire"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Blazpay Rewards</span>
-                    <span class="link-description">دریافت پاداش و انجام تسک‌های روزانه.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://rayls.com/testnet?ref_id=EQTAPHTMF" target="_blank" class="link-card tech-link">
-                <div class="link-icon"><i class="fas fa-train"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Rayls Testnet Early Access</span>
-                    <span class="link-description">دسترسی زودهنگام به تست‌نت ریلس.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://app.megaphone.xyz/pages/solstice?r=uFLOeg2Cwdrx" target="_blank" class="link-card web3-link">
-                <div class="link-icon"><i class="fas fa-bullhorn"></i></div>
-                <div class="link-details">
-                    <span class="link-title">📌Solstice (Megaphone)</span>
-                    <span class="link-description">فعالیت‌ها و پاداش‌های سولستایس.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            
-            <a href="https://app.allora.network/?ref=eyJyZWZlcnJlcl9pZCI6IjdkZTg0YmFmLWJlMTktNDZmYS1iN2NmLWU4OTkyYjgxNDA4ZiJ9" target="_blank" class="link-card tech-link">
-                <div class="link-icon"><i class="fas fa-robot"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Allora Network</span>
-                    <span class="link-description">شبکه هوش مصنوعی غیرمتمرکز.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://app.heyelsa.ai/login?referral=YZ5TPY" target="_blank" class="link-card tech-link">
-                <div class="link-icon"><i class="fas fa-comments"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Heyelsa AI</span>
-                    <span class="link-description">ابزار گفتگو و چت‌بات هوش مصنوعی.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://gaianet.ai/reward?invite_code=R75Ybn" target="_blank" class="link-card tech-link">
-                <div class="link-icon"><i class="fas fa-globe-americas"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Gaia Network (پاداش‌ها)</span>
-                    <span class="link-description">شبکه گایا - دسترسی به جوایز.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://hub.beamable.network/ref/JPH9RHKV" target="_blank" class="link-card web3-link">
-                <div class="link-icon"><i class="fas fa-cubes"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Beamable Network (هاب)</span>
-                    <span class="link-description">پلتفرم توسعه بازی‌های بلاکچین.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://www.parasail.network/season?refer=MHg4MWFlQjhEMjAwQjgyRDA2OEJmODZiRkJhRDFjMzIwOThlZEQ1NUI1" target="_blank" class="link-card web3-link">
-                <div class="link-icon"><i class="fas fa-leaf"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Parasail Network (فصل)</span>
-                    <span class="link-description">شرکت در فصل جدید پاداش‌ها.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://dashboard.3dos.io/register?ref_code=6d8572" target="_blank" class="link-card web3-link">
-                <div class="link-icon"><i class="fas fa-dice-d20"></i></div>
-                <div class="link-details">
-                    <span class="link-title">3DOS (داشبورد)</span>
-                    <span class="link-description">ثبت نام در داشبورد 3DOS.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://id.anime.foundation?referral-code=463B7A3" target="_blank" class="link-card gaming-link">
-                <div class="link-icon"><i class="fas fa-mask"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Anime Foundation (شناسه)</span>
-                    <span class="link-description">شناسنامه بنیاد انیمه.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://app.daren.market?ic=DW4BLW" target="_blank" class="link-card web3-link">
-                <div class="link-icon"><i class="fas fa-shopping-basket"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Daren Market (بازار)</span>
-                    <span class="link-description">دسترسی به بازار و پاداش‌ها.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://t.me/Secondlive_bot/app?startapp=vgh6dyx1" target="_blank" class="link-card telegram-link">
-                <div class="link-icon"><i class="fas fa-user-astronaut"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Secondlive (تلگرام بات)</span>
-                    <span class="link-description">اپلیکیشن بازی سکندلایو در تلگرام.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://t.me/Tap_CGPT_bot?start=dtYnH7vADRZPsYMmHBmhvW" target="_blank" class="link-card telegram-link">
-                <div class="link-icon"><i class="fas fa-robot"></i></div>
-                <div class="link-details">
-                    <span class="link-title">ChainGPT (تلگرام بات)</span>
-                    <span class="link-description">بات هوش مصنوعی ChainGPT.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://t.me/DuckChain_bot/quack?startapp=mWY8Cgss" target="_blank" class="link-card telegram-link">
-                <div class="link-icon"><i class="fas fa-feather-alt"></i></div>
-                <div class="link-details">
-                    <span class="link-title">DuckChain (تلگرام بات)</span>
-                    <span class="link-description">مینی اپلیکیشن داک‌چین.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://airdrop.carv.io/APC5FM" target="_blank" class="link-card gaming-link">
-                <div class="link-icon"><i class="fas fa-dice"></i></div>
-                <div class="link-details">
-                    <span class="link-title">📌Carv (ایردراپ)</span>
-                    <span class="link-description">ایردراپ پلتفرم گیمینگ کارو.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://www.intract.io/proof-of-humanity?pohReferralCode=AMi6JP&referralSource=PROOF_OF_HUMANITY" target="_blank" class="link-card web3-link">
-                <div class="link-icon"><i class="fas fa-user-check"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Intract Proof-of-Humanity</span>
-                    <span class="link-description">اثبات انسانیت برای ایردراپ‌ها.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://www.earnalliance.com/referrals/F3MQBB" target="_blank" class="link-card gaming-link">
-                <div class="link-icon"><i class="fas fa-trophy"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Earn Alliance (کسب جایزه)</span>
-                    <span class="link-description">پلتفرم کسب درآمد از بازی.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://protocol.carv.io/airdrop?invite_code=14LC1F" target="_blank" class="link-card gaming-link">
-                <div class="link-icon"><i class="fas fa-coins"></i></div>
-                <div class="link-details">
-                    <span class="link-title">CARV SOUL Drop Campaign</span>
-                    <span class="link-description">کمپین توکن سول (SOUL) کارو.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
             </a>
 
+            <h3 class="category-header category-title" data-cat="micro-link"><i class="fas fa-coins"></i> درآمد قطره‌ای و بازی</h3>
 
-            
-            ---
-            <h3 class="category-header micro-color">۳. کسب درآمد خرد و فاست‌ها (Permanant)</h3>
+            <a href="https://pwa.pumpgame.ir/auth?referral=lz7pwy" target="_blank" class="link-card gaming-link">
+                <div class="link-icon"><i class="fas fa-gamepad"></i></div>
+                <div class="link-details">
+                    <span class="link-title">Pump Game (پامپ)</span>
+                    <span class="link-description">بازی موبایلی با درآمد ریالی</span>
+                </div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
+            </a>
 
-            <a href="https://r.adbtc.top/1169353" target="_blank" class="link-card micro-link">
-                <div class="link-icon"><i class="fas fa-ad"></i></div>
-                <div class="link-details">
-                    <span class="link-title">📌AdBTC (مشاهده تبلیغات)</span>
-                    <span class="link-description">کسب بیت‌کوین با دیدن تبلیغات.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://adbch.top/r/312844" target="_blank" class="link-card micro-link">
-                <div class="link-icon"><i class="fas fa-ad"></i></div>
-                <div class="link-details">
-                    <span class="link-title">AdBCH (مشاهده تبلیغات)</span>
-                    <span class="link-description">کسب بیت‌کوین کش با دیدن تبلیغات.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://coinpayu.com/lp2/dashboard" target="_blank" class="link-card micro-link">
-                <div class="link-icon"><i class="fas fa-dollar-sign"></i></div>
-                <div class="link-details">
-                    <span class="link-title">📌CoinPayU (کسب درآمد)</span>
-                    <span class="link-description">انجام وظایف و مشاهده تبلیغات.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="http://cointiply.com/r/1no5Y" target="_blank" class="link-card micro-link">
-                <div class="link-icon"><i class="fas fa-coins"></i></div>
-                <div class="link-details">
-                    <span class="link-title">CointiPly (بازی و فاست)</span>
-                    <span class="link-description">پلتفرم فاست و کسب کوین.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://firefaucet.win/ref/126786" target="_blank" class="link-card micro-link">
-                <div class="link-icon"><i class="fas fa-faucet"></i></div>
-                <div class="link-details">
-                    <span class="link-title">FireFaucet (فاست خودکار)</span>
-                    <span class="link-description">فاست با پرداخت خودکار.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://autofaucet.dutchycorp.space/?r=Autofaucets" target="_blank" class="link-card micro-link">
-                <div class="link-icon"><i class="fas fa-hand-holding-usd"></i></div>
-                <div class="link-details">
-                    <span class="link-title">DutchyCorp AutoFaucet</span>
-                    <span class="link-description">فاست خودکار چند ارزی.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://simplebits.io/ref/0rd4li1cSLTL" target="_blank" class="link-card micro-link">
+            <a href="https://simplebits.io/ref/0rd4li1cSLTL" target="_blank" class="link-card micro-link gaming-link">
                 <div class="link-icon"><i class="fas fa-gem"></i></div>
                 <div class="link-details">
-                    <span class="link-title">SimpleBits (بازی و فاست)</span>
-                    <span class="link-description">کسب بیت‌های ساده.</span>
+                    <span class="link-title">SimpleBits</span>
+                    <span class="link-description">بازی و فاست برای کسب درآمد</span>
                 </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
             </a>
             
-            <a href="https://viefaucet.com/?r=6380ee9189dc9d60cddeaf22" target="_blank" class="link-card micro-link">
-                <div class="link-icon"><i class="fas fa-faucet"></i></div>
+            <a href="https://rollercoin.com/?r=kcq1472k" target="_blank" class="link-card micro-link gaming-link">
+                <div class="link-icon"><i class="fas fa-gamepad"></i></div>
                 <div class="link-details">
-                    <span class="link-title">VieFaucet (فاست)</span>
-                    <span class="link-description">فاست ارزهای دیجیتال.</span>
+                    <span class="link-title">RollerCoin</span>
+                    <span class="link-description">شبیه‌ساز ماینینگ و بازی</span>
                 </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
             </a>
             
-            <a href="https://freebitco.in/?r=17006348" target="_blank" class="link-card micro-link">
-                <div class="link-icon"><i class="fas fa-dice"></i></div>
+            <a href="https://limercoin.com/?ref=4i6ljids" target="_blank" class="link-card micro-link gaming-link">
+                <div class="link-icon"><i class="fas fa-lemon"></i></div>
                 <div class="link-details">
-                    <span class="link-title">FreeBitco.in (شانس و بخت)</span>
-                    <span class="link-description">چرخاندن شانس و کسب بیت‌کوین رایگان.</span>
+                    <span class="link-title">LimerCoin</span>
+                    <span class="link-description">بازی شبیه‌سازی استخراج</span>
                 </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
             </a>
             
             <a href="https://earnbitmoon.club/?ref=265500" target="_blank" class="link-card micro-link">
                 <div class="link-icon"><i class="fas fa-moon"></i></div>
                 <div class="link-details">
-                    <span class="link-title">Earnbitmoon (کسب بیت)</span>
-                    <span class="link-description">کلاب کسب بیت و پاداش.</span>
+                    <span class="link-title">EarnBitMoon</span>
+                    <span class="link-description">کلاب کسب درآمد و فاست</span>
                 </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
             </a>
             
-            <a href="https://everve.net/ref/678797/" target="_blank" class="link-card social-link">
-                <div class="link-icon"><i class="fas fa-share-alt"></i></div>
+            <a href="https://mitrarank.ir/reagent/61615" target="_blank" class="link-card micro-link">
+                <div class="link-icon"><i class="fas fa-users"></i></div>
                 <div class="link-details">
-                    <span class="link-title">Everve (کسب درآمد اجتماعی)</span>
-                    <span class="link-description">پاداش برای فعالیت‌های شبکه‌های اجتماعی.</span>
+                    <span class="link-title">Mitra Rank</span>
+                    <span class="link-description">کسب درآمد از بازدید و فعالیت</span>
                 </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
             </a>
             
-            <a href="https://2captcha.com/?from=9690712" target="_blank" class="link-card micro-link">
-                <div class="link-icon"><i class="fas fa-keyboard"></i></div>
+             <a href="https://viefaucet.com/?r=6380ee9189dc9d60cddeaf22" target="_blank" class="link-card micro-link">
+                <div class="link-icon"><i class="fas fa-faucet"></i></div>
                 <div class="link-details">
-                    <span class="link-title">2Captcha (تایپ کپچا)</span>
-                    <span class="link-description">حل کپچا و کسب درآمد.</span>
+                    <span class="link-title">VieFaucet</span>
+                    <span class="link-description">فاست ارزهای دیجیتال</span>
                 </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://www.easyhits4u.com/?ref=olivia965" target="_blank" class="link-card micro-link">
-                <div class="link-icon"><i class="fas fa-traffic-light"></i></div>
-                <div class="link-details">
-                    <span class="link-title">📌EasyHits4U (تبادل ترافیک)</span>
-                    <span class="link-description">سرویس تبادل بازدید وب‌سایت.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://mitrarank.ir/reagent/61615" target="_blank" class="link-card social-link">
-                <div class="link-icon"><i class="fas fa-thumbs-up"></i></div>
-                <div class="link-details">
-                    <span class="link-title">📌Mitra Rank (میترا رنک)</span>
-                    <span class="link-description"> کسب درآمد از ۲۰ روش گوناگون.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
             </a>
 
+            <a href="https://faucetpay.io/?r=95880" target="_blank" class="link-card micro-link">
+                <div class="link-icon"><i class="fas fa-wallet"></i></div>
+                <div class="link-details">
+                    <span class="link-title">FaucetPay</span>
+                    <span class="link-description">کیف پول واسط برای درآمد خرد</span>
+                </div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
+            </a>
+
+            <a href="https://r.adbtc.top/1169353" target="_blank" class="link-card micro-link">
+                <div class="link-icon"><i class="fab fa-btc"></i></div>
+                <div class="link-details">
+                    <span class="link-title">AdBTC</span>
+                    <span class="link-description">ساتوشی رایگان با دیدن تبلیغ</span>
+                </div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
+            </a>
             
-            ---
-            <h3 class="category-header depin-color">۴. اشتراک‌گذاری منابع (DePIN)</h3>
+             <a href="https://coinpayu.com/lp2/dashboard" target="_blank" class="link-card micro-link">
+                <div class="link-icon"><i class="fas fa-dollar-sign"></i></div>
+                <div class="link-details">
+                    <span class="link-title">CoinPayU</span>
+                    <span class="link-description">تسک‌های ساده و کلیکی</span>
+                </div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
+            </a>
+            
+            <a href="https://firefaucet.win/ref/126786" target="_blank" class="link-card micro-link">
+                <div class="link-icon"><i class="fas fa-fire"></i></div>
+                <div class="link-details">
+                    <span class="link-title">FireFaucet</span>
+                    <span class="link-description">فاست اتوماتیک با لول آپ</span>
+                </div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
+            </a>
+
+            <h3 class="category-header category-title" data-cat="depin-link"><i class="fas fa-server"></i> شبکه فیزیکی (DePIN)</h3>
+            
+            <a href="https://app.gata.xyz/?invite_code=8epdx7rg" target="_blank" class="link-card depin-link">
+                <div class="link-icon"><i class="fas fa-project-diagram"></i></div>
+                <div class="link-details">
+                    <span class="link-title">Gata Hub</span>
+                    <span class="link-description">پلتفرم غیرمتمرکز Gata</span>
+                </div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
+            </a>
+            
+            <a href="https://dashboard.aro.network/signup?referral=GJIXM0" target="_blank" class="link-card depin-link">
+                <div class="link-icon"><i class="fas fa-network-wired"></i></div>
+                <div class="link-details">
+                    <span class="link-title">Aro Network</span>
+                    <span class="link-description">ثبت نام در داشبورد Aro</span>
+                </div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
+            </a>
+            
+            <a href="https://node.optimai.network/register?ref=0EB0B06E" target="_blank" class="link-card depin-link">
+                <div class="link-icon"><i class="fas fa-brain"></i></div>
+                <div class="link-details">
+                    <span class="link-title">OptimAI Node</span>
+                    <span class="link-description">اجرای نود هوش مصنوعی</span>
+                </div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
+            </a>
+
+            <a href="https://app.getgrass.io/register?referralCode=XBPRl6U7sAvvzRX" target="_blank" class="link-card depin-link">
+                <div class="link-icon"><i class="fas fa-leaf"></i></div>
+                <div class="link-details">
+                    <span class="link-title">Grass</span>
+                    <span class="link-description">استخراج با اینترنت بلااستفاده</span>
+                </div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
+            </a>
 
             <a href="https://pawns.app?r=1112465" target="_blank" class="link-card depin-link">
                 <div class="link-icon"><i class="fas fa-wifi"></i></div>
                 <div class="link-details">
-                    <span class="link-title">Pawns.app (اشتراک پهنای باند)</span>
-                    <span class="link-description">کسب درآمد از اشتراک اینترنت بلااستفاده.</span>
+                    <span class="link-title">Pawns.app</span>
+                    <span class="link-description">اشتراک پهنای باند</span>
                 </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            
-            <a href="https://app.getgrass.io/register?referralCode=XBPRl6U7sAvvzRX" target="_blank" class="link-card depin-link">
-                <div class="link-icon"><i class="fas fa-leaf"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Grass.io (اشتراک پهنای باند)</span>
-                    <span class="link-description">شبکه اشتراک اینترنت مبتنی بر AI.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            
-            <a href="https://app.nodego.ai/r/NODECDD9DA0DBC54" target="_blank" class="link-card depin-link">
-                <div class="link-icon"><i class="fas fa-server"></i></div>
-                <div class="link-details">
-                    <span class="link-title">NodeGo AI (گره‌ها)</span>
-                    <span class="link-description">تبدیل دستگاه شما به گره محاسباتی.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
             </a>
             
             <a href="https://app.nodepay.ai/register?ref=5pxS8VIIZzNeDSF" target="_blank" class="link-card depin-link">
                 <div class="link-icon"><i class="fas fa-network-wired"></i></div>
                 <div class="link-details">
-                    <span class="link-title">Nodepay Registration</span>
-                    <span class="link-description">شبکه نودپی - ثبت نام و کسب امتیاز.</span>
+                    <span class="link-title">Nodepay</span>
+                    <span class="link-description">درآمد از نودهای غیرمتمرکز</span>
                 </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
+            </a>
+            
+            <h3 class="category-header category-title" data-cat="telegram-link"><i class="fab fa-telegram"></i> تلگرام و بات‌ها</h3>
+            
+            <a href="https://t.me/EtherDROPS_bot?start=promo_OYJAP5" target="_blank" class="link-card telegram-link">
+                <div class="link-icon"><i class="fas fa-robot"></i></div>
+                <div class="link-details">
+                    <span class="link-title">EtherDROPS Bot</span>
+                    <span class="link-description">ردیاب قیمت و تراکنش‌ها در تلگرام</span>
+                </div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
+            </a>
+            
+            <a href="https://t.me/gamee/start?startapp=eyJyZWYiOjMzMzYwMDY0MH0" target="_blank" class="link-card telegram-link">
+                <div class="link-icon"><i class="fas fa-dice"></i></div>
+                <div class="link-details">
+                    <span class="link-title">Gamee</span>
+                    <span class="link-description">پلتفرم بازی و جایزه در تلگرام</span>
+                </div>
+                <div class="link-arrow"><i class="fas fa-chevron-left"></i></div>
             </a>
 
-            
-            ---
-            <h3 class="category-header gaming-color">۵. بازی، محتوا و بات‌های تلگرام</h3>
-
-            <a href="https://pwa.pumpgame.ir/auth?referral=lz7pwy" target="_blank" class="link-card gaming-link">
-                <div class="link-icon"><i class="fas fa-gamepad"></i></div>
-                <div class="link-details">
-                    <span class="link-title">📌Pump Game (پامپ گیم)</span>
-                    <span class="link-description">بازی موبایلی و کسب درآمد داخلی.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            
-            <a href="https://www.publish0x.com/?a=OpnelZ1bKB" target="_blank" class="link-card content-link">
-                <div class="link-icon"><i class="fas fa-blog"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Publish0x (وبلاگ‌نویسی)</span>
-                    <span class="link-description">پلتفرم وبلاگ‌نویسی با درآمد رمزارزی.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://t.me/catizenbot/gamecenter?startapp=p_2558632" target="_blank" class="link-card telegram-link">
-                <div class="link-icon"><i class="fas fa-cat"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Catizen (تلگرام بات)</span>
-                    <span class="link-description">بازی مشهور تلگرامی مبتنی بر گربه‌ها.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="http://t.me/BlumCryptoBot/app?startapp=ref_tn1rOBk61W" target="_blank" class="link-card telegram-link">
-                <div class="link-icon"><i class="fas fa-leaf"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Blum (تلگرام بات)</span>
-                    <span class="link-description">بات تلگرامی صرافی Blum.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://t.me/MomoAI_bot/app?startapp=0T59NN" target="_blank" class="link-card telegram-link">
-                <div class="link-icon"><i class="fas fa-monkey"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Momo AI (تلگرام بات)</span>
-                    <span class="link-description">مینی اپلیکیشن گیمینگ مومو.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://t.me/hi_PIN_bot/app?startapp=p9hcr23" target="_blank" class="link-card telegram-link">
-                <div class="link-icon"><i class="fas fa-map-pin"></i></div>
-                <div class="link-details">
-                    <span class="link-title">hi_PIN_bot (تلگرام)</span>
-                    <span class="link-description">بات جمع‌آوری پین‌های دیجیتال.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://t.me/TVerse?startapp=galaxy-000370e7c20003d201ab000139f5fc" target="_blank" class="link-card telegram-link">
-                <div class="link-icon"><i class="fas fa-globe"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Tiny Verse (تلگرام)</span>
-                    <span class="link-description">ورود به دنیای متاورس کوچک.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-            
-            <a href="https://unmineable.com/?ref=bjw4-ta61" target="_blank" class="link-card tech-link">
-                <div class="link-icon"><i class="fas fa-hammer"></i></div>
-                <div class="link-details">
-                    <span class="link-title">Unmineable (ماینینگ)</span>
-                    <span class="link-description">استخراج رمزارز با GPU و CPU.</span>
-                </div>
-                <div class="link-action"><i class="fas fa-chevron-left"></i></div>
-            </a>
-
-            </main>
+        </main>
 
         <footer>
-            <p>این صفحه توسط [نام شما یا نام پروژه] برای تسهیل دسترسی به منابع برتر طراحی و در گیت‌هاب میزبانی شده است.</p>
+            <p>Designed for Web3 Explorers ❤️</p>
         </footer>
     </div>
+
+    <div id="toast">لینک کپی شد!</div>
+
+    <script>
+        // 1. Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            
+            // Icon toggle
+            const btn = document.querySelector('.theme-toggle i');
+            btn.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        // 2. Search Functionality
+        function filterLinks() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const cards = document.getElementsByClassName('link-card');
+            const headers = document.getElementsByClassName('category-header');
+
+            // Reset category filter when searching
+            if (filter.length > 0) {
+                 // Hide headers during search for cleaner look
+                for (let h of headers) h.classList.add('hidden');
+                
+                // Show/Hide cards
+                for (let i = 0; i < cards.length; i++) {
+                    const title = cards[i].querySelector('.link-title').innerText;
+                    const desc = cards[i].querySelector('.link-description').innerText;
+                    if (title.toLowerCase().includes(filter) || desc.toLowerCase().includes(filter)) {
+                        cards[i].classList.remove('hidden');
+                    } else {
+                        cards[i].classList.add('hidden');
+                    }
+                }
+            } else {
+                // If search is empty, revert to currently selected category tag
+                const activeBtn = document.querySelector('.filter-btn.active');
+                if(activeBtn) activeBtn.click();
+            }
+        }
+
+        // 3. Category Filter
+        function filterCategory(category, btnElement) {
+            // Update active button state
+            const buttons = document.getElementsByClassName('filter-btn');
+            for (let btn of buttons) btn.classList.remove('active');
+            btnElement.classList.add('active');
+
+            // Clear search input
+            document.getElementById('searchInput').value = '';
+
+            const cards = document.getElementsByClassName('link-card');
+            const headers = document.getElementsByClassName('category-header');
+
+            // Show/Hide Logic
+            if (category === 'all') {
+                for (let c of cards) c.classList.remove('hidden');
+                for (let h of headers) h.classList.remove('hidden');
+            } else {
+                // Hide all headers first
+                for (let h of headers) h.classList.add('hidden');
+                
+                // Show specific header if it matches the category
+                // Note: This relies on headers having a data-cat attribute
+                for (let h of headers) {
+                    if (h.getAttribute('data-cat') === category) h.classList.remove('hidden');
+                }
+
+                // Show/Hide cards
+                for (let c of cards) {
+                    if (c.classList.contains(category)) {
+                        c.classList.remove('hidden');
+                    } else {
+                        c.classList.add('hidden');
+                    }
+                }
+            }
+        }
+
+        // 4. Share Page
+        function sharePage() {
+            navigator.clipboard.writeText(window.location.href);
+            const toast = document.getElementById("toast");
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        // Default to Dark Mode if system preference is dark
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            toggleTheme();
+        }
+    </script>
 </body>
 </html>
-
